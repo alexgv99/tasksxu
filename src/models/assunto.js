@@ -1,7 +1,7 @@
 import uuid from 'uuid/v4';
 
 export class Assunto {
-	id;
+	key;
 	titulo;
 	detalhamento;
 	tipo;
@@ -15,7 +15,7 @@ export class Assunto {
 	tarefas;
 
 	constructor() {
-		this.id = uuid();
+		this.key = uuid();
 		this.titulo = '';
 	}
 }

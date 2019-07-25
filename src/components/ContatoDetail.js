@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Fab from '@material-ui/core/Fab';
 import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles(theme => ({
@@ -18,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 		fontSize: 16,
 		marginLeft: 25,
 		padding: 10,
-		background: '#eeeeee'
+		background: 'inherit'
 	}
 }));
 
@@ -47,7 +46,9 @@ const ContatoDetail = ({ contato, onEdit, onDelete }) => {
 };
 
 ContatoDetail.propTypes = {
-	contato: PropTypes.any
+	contato: PropTypes.any,
+	onEdit: PropTypes.func,
+	onDelete: PropTypes.func
 };
 
 export default ContatoDetail;

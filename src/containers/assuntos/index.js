@@ -8,6 +8,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import { Assunto } from '../../models/assunto';
 import { size } from 'lodash';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -41,11 +42,28 @@ const Assuntos = () => {
 		}
 	}, [assuntoEdicao]);
 
+	const removeAssunto = assunto => FirebaseService.remove('assuntos', assunto.key);
+	const saveAssunto = assunto => {
+		if (assuntos.find(c => c.key === assunto.key)) {
+			FirebaseService.updateData('assuntos', assunto.key, assunto);
+		} else {
+			FirebaseService.pushData('assuntos', assunto);
+		}
+		setAssuntoEdicao(null);
+	};
+	const cancelEdicao = () => {
+		setAssuntoEdicao(null);
+	};
+
 	return (
 		<>
-			<NavBar />
-			{editing && <AssuntoForm assunto={assuntoEdicao} />}
-			<AssuntoList assuntos={assuntos} onEdit={setAssuntoEdicao} />
+			<NavBar>
+				<Link to="/contatos" style={{ margin: 10, color: 'white', fontSize: 18 }}>
+					Contatos
+				</Link>
+			</NavBar>
+			{editing && <AssuntoForm assunto={assuntoEdicao} onSave={saveAssunto} onCancel={cancelEdicao} />}
+			<AssuntoList assuntos={assuntos} onEdit={setAssuntoEdicao} onDelete={removeAssunto} />
 			<Fab color="primary" aria-label="Novo Assunto" className={classes.fab}>
 				<AddIcon onClick={() => setAssuntoEdicao({})} />
 			</Fab>

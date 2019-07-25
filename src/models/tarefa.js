@@ -1,12 +1,12 @@
 import uuid from 'uuid/v4';
 
 export class Tarefa {
-	id;
+	key;
 	descricao;
 	prazo;
 	responsavel;
 
 	constructor() {
-		this.id = uuid();
+		this.key = uuid();
 	}
 }

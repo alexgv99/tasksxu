@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
 import AssuntoDetail from './AssuntoDetail';
+import SearchText from './SearchText';
 
-const AssuntoList = ({ assuntos, onEdit }) => {
+const AssuntoList = ({ assuntos, onEdit, onDelete }) => {
 	const [termo, setTermo] = useState('');
 	return (
 		<>
-			<TextField label="Pesquisar" style={{ padding: 24 }} value={termo} onChange={e => setTermo(e.target.value)} />
-			<Grid container spacing={24} style={{ padding: 24 }}>
-				{assuntos.map(assunto => (
-					<Grid item xs={12} sm={12} lg={12} xl={12}>
-						<AssuntoDetail assunto={assunto} onEdit={onEdit} />
-					</Grid>
-				))}
+			<SearchText label="Pesquisar" style={{ padding: 24 }} termo={termo} setTermo={setTermo} />
+			<Grid container spacing={3} style={{ padding: 10 }}>
+				{assuntos
+					.filter(c => JSON.stringify(c).indexOf(termo) > -1)
+					.map((assunto, i) => (
+						<Grid item xs={12} key={i} style={{ backgroundColor: i % 2 === 0 ? '#eeeeee' : '#dddddd' }}>
+							<AssuntoDetail assunto={assunto} onEdit={onEdit} onDelete={onDelete} />
+						</Grid>
+					))}
 			</Grid>
 		</>
 	);

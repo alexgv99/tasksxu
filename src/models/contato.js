@@ -1,13 +1,13 @@
 import uuid from 'uuid/v4';
 
 export class Contato {
-	id;
+	key;
 	nome;
 	orgao;
 	email;
 	fone;
 
 	constructor() {
-		this.id = uuid();
+		this.key = uuid();
 	}
 }
