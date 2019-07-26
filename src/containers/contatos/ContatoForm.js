@@ -1,10 +1,10 @@
+import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Grid from '@material-ui/core/Grid';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 
@@ -13,6 +13,9 @@ import React, { useState } from 'react';
 import { size } from 'lodash';
 
 import PropTypes from 'prop-types';
+
+import { checkKeys } from '../../utils/tools';
+
 const useStyles = makeStyles(theme => ({
 	button: {
 		margin: theme.spacing(1)
@@ -24,18 +27,6 @@ const ContatoDetail = ({ contato: c, onSave, onCancel }) => {
 
 	const [contato, setContato] = useState(c);
 	const [erro, setErro] = useState({});
-
-	const checkKeys = key => {
-		if (key) {
-			if (key === 'Escape') {
-				onCancel();
-			} else {
-				if (key === 'Enter') {
-					save(contato);
-				}
-			}
-		}
-	};
 
 	const save = () => {
 		const auxErro = {};
@@ -59,7 +50,7 @@ const ContatoDetail = ({ contato: c, onSave, onCancel }) => {
 				<DialogContentText>
 					To subscribe to this website, please enter your email address here. We will send updates occasionally.
 				</DialogContentText>
-				<form onKeyDown={e => checkKeys(e.key)}>
+				<form onKeyDown={e => checkKeys(e.key, onCancel, () => onSave(contato))}>
 					<Grid container>
 						<Grid item xs={6}>
 							<TextField
