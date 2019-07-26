@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import FirebaseService from '../../services/FirebaseService';
-import NavBar from '../../components/NavBar';
-import AssuntoList from '../../components/AssuntoList';
-import AssuntoForm from '../../components/AssuntoForm';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
-import { Assunto } from '../../models/assunto';
+
+import React, { useState, useEffect } from 'react';
+
 import { size } from 'lodash';
+
 import { Link } from 'react-router-dom';
+
+import NavBar from '../../components/NavBar';
+import { Assunto } from '../../models/assunto';
+import FirebaseService from '../../services/FirebaseService';
+
+import AssuntoForm from './AssuntoForm';
+import AssuntoList from './AssuntoList';
 
 const useStyles = makeStyles(theme => ({
 	root: {

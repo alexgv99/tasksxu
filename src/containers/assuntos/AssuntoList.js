@@ -1,20 +1,24 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
-import ContatoDetail from './ContatoDetail';
-import SearchText from './SearchText';
 
-const ContatoList = ({ contatos, onEdit, onDelete }) => {
+import React, { useState } from 'react';
+
+import PropTypes from 'prop-types';
+
+import SearchText from '../../components/SearchText';
+
+import AssuntoDetail from './AssuntoDetail';
+
+const AssuntoList = ({ assuntos, onEdit, onDelete }) => {
 	const [termo, setTermo] = useState('');
 	return (
 		<>
 			<SearchText label="Pesquisar" style={{ padding: 24 }} termo={termo} setTermo={setTermo} />
 			<Grid container spacing={3} style={{ padding: 10 }}>
-				{contatos
+				{assuntos
 					.filter(c => JSON.stringify(c).indexOf(termo) > -1)
-					.map((contato, i) => (
+					.map((assunto, i) => (
 						<Grid item xs={12} key={i} style={{ backgroundColor: i % 2 === 0 ? '#eeeeee' : '#dddddd' }}>
-							<ContatoDetail contato={contato} onEdit={onEdit} onDelete={onDelete} />
+							<AssuntoDetail assunto={assunto} onEdit={onEdit} onDelete={onDelete} />
 						</Grid>
 					))}
 			</Grid>
@@ -22,8 +26,8 @@ const ContatoList = ({ contatos, onEdit, onDelete }) => {
 	);
 };
 
-ContatoList.propTypes = {
-	contatos: PropTypes.arrayOf(PropTypes.any)
+AssuntoList.propTypes = {
+	assuntos: PropTypes.arrayOf(PropTypes.any)
 };
 
-export default ContatoList;
+export default AssuntoList;

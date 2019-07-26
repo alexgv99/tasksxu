@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import FirebaseService from '../../services/FirebaseService';
-import NavBar from '../../components/NavBar';
-import ContatoList from '../../components/ContatoList';
-import ContatoForm from '../../components/ContatoForm';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
-import { Contato } from '../../models/contato';
+
+import React, { useState, useEffect } from 'react';
+
 import { size } from 'lodash';
+
 import { Link } from 'react-router-dom';
+
+import NavBar from '../../components/NavBar';
+import { Contato } from '../../models/contato';
+import FirebaseService from '../../services/FirebaseService';
+
+import ContatoForm from './ContatoForm';
+import ContatoList from './ContatoList';
 
 const useStyles = makeStyles(theme => ({
 	root: {
