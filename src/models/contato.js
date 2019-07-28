@@ -6,7 +6,7 @@ export class Contato {
 	orgao;
 	email;
 	fone;
-	observacoes;
+	observacao;
 
 	constructor() {
 		this.key = uuid();

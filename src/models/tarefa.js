@@ -5,6 +5,7 @@ export class Tarefa {
 	descricao;
 	prazo;
 	responsavel;
+	observacao;
 
 	constructor() {
 		this.key = uuid();

@@ -1,12 +1,14 @@
+import Grid from '@material-ui/core/Grid';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogContent from '@material-ui/core/DialogContent';
-import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 
 import React, { useState } from 'react';
 
@@ -28,6 +30,9 @@ const ContatoDetail = ({ contato: c, onSave, onCancel }) => {
 	const [contato, setContato] = useState(c);
 	const [erro, setErro] = useState({});
 
+	const theme = useTheme();
+	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
 	const save = () => {
 		const auxErro = {};
 		if (size(contato.nome) === 0) {
@@ -44,8 +49,15 @@ const ContatoDetail = ({ contato: c, onSave, onCancel }) => {
 	};
 
 	return c ? (
-		<Dialog open={true} onClose={onCancel} aria-labelledby="form-dialog-title">
-			<DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+		<Dialog
+			open={true}
+			onClose={onCancel}
+			aria-labelledby="form-dialog-title"
+			maxWidth={'lg'}
+			fullWidth={true}
+			fullScreen={fullScreen}
+		>
+			<DialogTitle id="form-dialog-title">Detalhamento do Contato</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
 					To subscribe to this website, please enter your email address here. We will send updates occasionally.
@@ -98,9 +110,9 @@ const ContatoDetail = ({ contato: c, onSave, onCancel }) => {
 						<Grid item xs={12}>
 							<TextField
 								label="Observações"
-								value={contato.observacoes || ''}
-								onChange={e => setContato({ ...contato, observacoes: e.target.value })}
-								helperText={<span style={{ color: 'red' }}>{erro.observacoes}</span>}
+								value={contato.observacao || ''}
+								onChange={e => setContato({ ...contato, observacao: e.target.value })}
+								helperText={<span style={{ color: 'red' }}>{erro.observacao}</span>}
 								fullWidth
 								multiline
 								rows={3}
