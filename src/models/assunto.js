@@ -21,4 +21,4 @@ export class Assunto {
 		this.tipo = TIPO_ASSUNTOS[0];
 	}
 }
-export const TIPO_ASSUNTOS = ['geral', 'vinicius', 'estevão'];
+export const TIPO_ASSUNTOS = ['geral', 'cachorro', 'gato'];

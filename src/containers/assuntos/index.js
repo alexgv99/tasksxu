@@ -56,6 +56,7 @@ const Assuntos = () => {
 		}
 		setAssuntoEdicao(null);
 	};
+
 	const cancelEdicao = () => {
 		setAssuntoEdicao(null);
 	};

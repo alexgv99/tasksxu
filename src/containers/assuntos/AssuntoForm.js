@@ -1,5 +1,5 @@
+import Input from '@material-ui/core/Input';
 import Chip from '@material-ui/core/Chip';
-import DialogContent from '@material-ui/core/DialogContent';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
@@ -7,11 +7,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import FormControl from '@material-ui/core/FormControl';
+import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import InputLabel from '@material-ui/core/InputLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Radio from '@material-ui/core/Radio';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
@@ -21,6 +25,7 @@ import { size } from 'lodash';
 
 import PropTypes from 'prop-types';
 
+import { TIPO_ASSUNTOS } from '../../models/assunto';
 import FirebaseService from '../../services/FirebaseService';
 import { checkKeys } from '../../utils/tools';
 
@@ -52,16 +57,12 @@ const MenuProps = {
 	}
 };
 
-const getStyles = (contato, contatosSelecionados, theme) => ({
-	fontWeight: (contatosSelecionados || []).find(c => c.key === contato.key)
-		? theme.typography.fontWeightRegular
-		: theme.typography.fontWeightMedium
-});
-
 const AssuntoForm = ({ assunto: a, onSave, onCancel }) => {
 	const classes = useStyles();
-
+	const [tiposAssuntos, setTiposAssuntos] = useState(TIPO_ASSUNTOS);
 	const [assunto, setAssunto] = useState(a);
+	const [tipo, setTipo] = useState(null);
+	const [outroTipo, setOutroTipo] = useState(null);
 	const [erro, setErro] = useState({});
 	const [contatos, setContatos] = useState([]);
 	const theme = useTheme();
@@ -70,6 +71,27 @@ const AssuntoForm = ({ assunto: a, onSave, onCancel }) => {
 	useEffect(() => {
 		FirebaseService.getDataList('contatos', setContatos, 10000);
 	}, []);
+
+	useEffect(() => {
+		FirebaseService.getDataList(
+			'assuntos',
+			assuntos => {
+				let tipos = [...tiposAssuntos];
+				assuntos.forEach(a => {
+					if (tipos.indexOf(a.tipo) === -1) {
+						tipos.push(a.tipo);
+					}
+				});
+				if (tipos.indexOf('outro') === -1) {
+					tipos.push('outro');
+				}
+				setTiposAssuntos(tipos);
+				setTipo(tipos.find(aux => aux === assunto.tipo) ? assunto.tipo : 'outro');
+				setOutroTipo(tipos.find(aux => aux === assunto.tipo) ? null : assunto.tipo);
+			},
+			10000
+		);
+	}, [tiposAssuntos]);
 
 	const save = () => {
 		const auxErro = {};
@@ -92,6 +114,20 @@ const AssuntoForm = ({ assunto: a, onSave, onCancel }) => {
 	const handleRemoveContato = contato => {
 		const novosContatos = assunto.contatos.filter(c => c.key !== contato.key);
 		const novoAssunto = { ...assunto, contatos: novosContatos };
+		setAssunto(novoAssunto);
+	};
+
+	const handleSelectTipo = e => {
+		const tAux = e.target.value;
+		setTipo(tAux);
+		const novoAssunto = { ...assunto, tipo: tAux === 'outro' ? outroTipo : tAux };
+		setAssunto(novoAssunto);
+	};
+
+	const handleOutroTipo = e => {
+		const tAux = e.target.value;
+		setOutroTipo(tAux);
+		const novoAssunto = { ...assunto, tipo: tAux };
 		setAssunto(novoAssunto);
 	};
 
@@ -130,13 +166,37 @@ const AssuntoForm = ({ assunto: a, onSave, onCancel }) => {
 							/>
 						</Grid>
 						<Grid item xs={12}>
-							<FormControl className={classes.formControl}>
+							<FormControl component="fieldset">
+								<FormLabel component="legend">Tipo</FormLabel>
+								<RadioGroup aria-label="tipo" name="tipo" value={tipo} onChange={handleSelectTipo} row>
+									{tiposAssuntos.map((t, i) => (
+										<FormControlLabel
+											key={`${t}-${i}`}
+											value={t || ''}
+											control={<Radio color="primary" />}
+											label={t}
+											labelPlacement="end"
+										/>
+									))}
+								</RadioGroup>
+							</FormControl>{' '}
+							{tipo === 'outro' && (
+								<TextField
+									label=""
+									value={outroTipo || ''}
+									onChange={handleOutroTipo}
+									helperText={<span style={{ color: 'red' }}>{erro.outroTipo}</span>}
+								/>
+							)}
+						</Grid>
+						<Grid item xs={12}>
+							<FormControl className={classes.formControl} style={{ display: 'flex' }} fullWidth>
 								<InputLabel htmlFor="contatos">Contatos</InputLabel>
 								<Select
 									multiple
 									value={assunto.contatos || []}
 									onChange={handleAddContato}
-									input={<Input id="contatos" fullWidth />}
+									input={<Input id="contatos" />}
 									renderValue={selected => (
 										<div className={classes.chips}>
 											{selected.map(c => (
@@ -154,11 +214,7 @@ const AssuntoForm = ({ assunto: a, onSave, onCancel }) => {
 									{contatos
 										.filter(c => !(assunto.contatos || []).find(obj => obj.key === c.key))
 										.map(contato => (
-											<MenuItem
-												key={contato.key}
-												value={contato.nome}
-												style={getStyles(contato, assunto.contatos, theme)}
-											>
+											<MenuItem key={contato.key} value={contato.nome}>
 												{contato.nome}
 											</MenuItem>
 										))}
