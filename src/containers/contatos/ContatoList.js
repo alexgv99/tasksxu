@@ -15,9 +15,14 @@ const ContatoList = ({ contatos, onEdit, onDelete }) => {
 			<SearchText label="Pesquisar" style={{ padding: 24 }} termo={termo} setTermo={setTermo} />
 			<Grid container spacing={3} style={{ padding: 10 }}>
 				{contatos
-					.filter(c => JSON.stringify(c).indexOf(termo) > -1)
+					.filter((c) => JSON.stringify(c).indexOf(termo) > -1)
 					.map((contato, i) => (
-						<Grid item xs={12} key={i} style={{ backgroundColor: i % 2 === 0 ? '#eeeeee' : '#dddddd' }}>
+						<Grid
+							item
+							xs={12}
+							key={i}
+							style={{ backgroundColor: i % 2 === 0 ? '#eeeeee' : '#dddddd' }}
+						>
 							<ContatoDetail contato={contato} onEdit={onEdit} onDelete={onDelete} />
 						</Grid>
 					))}
@@ -27,7 +32,9 @@ const ContatoList = ({ contatos, onEdit, onDelete }) => {
 };
 
 ContatoList.propTypes = {
-	contatos: PropTypes.arrayOf(PropTypes.any)
+	contatos: PropTypes.arrayOf(PropTypes.any),
+	onEdit: PropTypes.func,
+	onDelete: PropTypes.func,
 };
 
 export default ContatoList;

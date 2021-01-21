@@ -6,21 +6,22 @@ import Grid from '@material-ui/core/Grid';
 import React from 'react';
 
 import PropTypes from 'prop-types';
+import { Assunto } from '../../models/assunto';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
-		color: theme.palette.text.primary
+		color: theme.palette.text.primary,
 	},
 	fab: {
 		float: 'right',
-		margin: 10
+		margin: 10,
 	},
 	icon: {
 		fontSize: 16,
 		marginLeft: 25,
 		padding: 10,
-		background: 'inherit'
-	}
+		background: 'inherit',
+	},
 }));
 
 const AssuntoDetail = ({ assunto, onEdit, onDelete }) => {
@@ -48,9 +49,9 @@ const AssuntoDetail = ({ assunto, onEdit, onDelete }) => {
 };
 
 AssuntoDetail.propTypes = {
-	assunto: PropTypes.any,
+	assunto: PropTypes.shape(new Assunto()),
 	onEdit: PropTypes.func,
-	onDelete: PropTypes.func
+	onDelete: PropTypes.func,
 };
 
 export default AssuntoDetail;

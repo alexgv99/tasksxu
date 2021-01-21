@@ -6,21 +6,22 @@ import Grid from '@material-ui/core/Grid';
 import React from 'react';
 
 import PropTypes from 'prop-types';
+import { Contato } from '../../models/contato';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
-		color: theme.palette.text.primary
+		color: theme.palette.text.primary,
 	},
 	fab: {
 		float: 'right',
-		margin: 10
+		margin: 10,
 	},
 	icon: {
 		fontSize: 16,
 		marginLeft: 25,
 		padding: 10,
-		background: 'inherit'
-	}
+		background: 'inherit',
+	},
 }));
 
 const ContatoDetail = ({ contato, onEdit, onDelete }) => {
@@ -48,9 +49,9 @@ const ContatoDetail = ({ contato, onEdit, onDelete }) => {
 };
 
 ContatoDetail.propTypes = {
-	contato: PropTypes.any,
+	contato: PropTypes.shape(new Contato()),
 	onEdit: PropTypes.func,
-	onDelete: PropTypes.func
+	onDelete: PropTypes.func,
 };
 
 export default ContatoDetail;

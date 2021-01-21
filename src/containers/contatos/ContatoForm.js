@@ -1,14 +1,13 @@
 import Grid from '@material-ui/core/Grid';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogContent from '@material-ui/core/DialogContent';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
 
 import React, { useState } from 'react';
 
@@ -17,11 +16,12 @@ import { size } from 'lodash';
 import PropTypes from 'prop-types';
 
 import { checkKeys } from '../../utils/tools';
+import { Contato } from '../../models/contato';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	button: {
-		margin: theme.spacing(1)
-	}
+		margin: theme.spacing(1),
+	},
 }));
 
 const ContatoDetail = ({ contato: c, onSave, onCancel }) => {
@@ -50,28 +50,29 @@ const ContatoDetail = ({ contato: c, onSave, onCancel }) => {
 
 	return c ? (
 		<Dialog
-			open={true}
+			open
 			onClose={onCancel}
 			aria-labelledby="form-dialog-title"
-			maxWidth={'lg'}
-			fullWidth={true}
+			maxWidth="lg"
+			fullWidth
 			fullScreen={fullScreen}
 		>
 			<DialogTitle id="form-dialog-title">Detalhamento do Contato</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
-					To subscribe to this website, please enter your email address here. We will send updates occasionally.
+					To subscribe to this website, please enter your email address here. We will send updates
+					occasionally.
 				</DialogContentText>
-				<form onKeyDown={e => checkKeys(e.key, onCancel, () => onSave(contato))}>
+				<form onKeyDown={(e) => checkKeys(e.key, onCancel, () => onSave(contato))}>
 					<Grid container>
 						<Grid item xs={6}>
 							<TextField
 								label="Nome"
 								value={contato.nome || ''}
-								onChange={e => setContato({ ...contato, nome: e.target.value })}
+								onChange={(e) => setContato({ ...contato, nome: e.target.value })}
 								helperText={<span style={{ color: 'red' }}>{erro.nome}</span>}
 								fullWidth
-								autoFocus={true}
+								autoFocus
 							/>
 						</Grid>
 						<Grid item xs={1}>
@@ -81,7 +82,7 @@ const ContatoDetail = ({ contato: c, onSave, onCancel }) => {
 							<TextField
 								label="Órgão"
 								value={contato.orgao || ''}
-								onChange={e => setContato({ ...contato, orgao: e.target.value })}
+								onChange={(e) => setContato({ ...contato, orgao: e.target.value })}
 								helperText={<span style={{ color: 'red' }}>{erro.orgao}</span>}
 								fullWidth
 							/>
@@ -90,7 +91,7 @@ const ContatoDetail = ({ contato: c, onSave, onCancel }) => {
 							<TextField
 								label="e-mail"
 								value={contato.email || ''}
-								onChange={e => setContato({ ...contato, email: e.target.value })}
+								onChange={(e) => setContato({ ...contato, email: e.target.value })}
 								helperText={<span style={{ color: 'red' }}>{erro.email}</span>}
 								fullWidth
 							/>
@@ -102,7 +103,7 @@ const ContatoDetail = ({ contato: c, onSave, onCancel }) => {
 							<TextField
 								label="Telefones"
 								value={contato.fone || ''}
-								onChange={e => setContato({ ...contato, fone: e.target.value })}
+								onChange={(e) => setContato({ ...contato, fone: e.target.value })}
 								helperText={<span style={{ color: 'red' }}>{erro.fone}</span>}
 								fullWidth
 							/>
@@ -111,7 +112,7 @@ const ContatoDetail = ({ contato: c, onSave, onCancel }) => {
 							<TextField
 								label="Observações"
 								value={contato.observacao || ''}
-								onChange={e => setContato({ ...contato, observacao: e.target.value })}
+								onChange={(e) => setContato({ ...contato, observacao: e.target.value })}
 								helperText={<span style={{ color: 'red' }}>{erro.observacao}</span>}
 								fullWidth
 								multiline
@@ -122,7 +123,12 @@ const ContatoDetail = ({ contato: c, onSave, onCancel }) => {
 				</form>
 			</DialogContent>
 			<DialogActions>
-				<Button color="primary" variant="contained" className={classes.button} onClick={() => save(contato)}>
+				<Button
+					color="primary"
+					variant="contained"
+					className={classes.button}
+					onClick={() => save(contato)}
+				>
 					Salvar
 				</Button>
 				<Button variant="contained" className={classes.button} onClick={() => onCancel()}>
@@ -134,7 +140,9 @@ const ContatoDetail = ({ contato: c, onSave, onCancel }) => {
 };
 
 ContatoDetail.propTypes = {
-	contato: PropTypes.any
+	contato: PropTypes.shape(new Contato()),
+	onSave: PropTypes.func,
+	onCancel: PropTypes.func,
 };
 
 export default ContatoDetail;

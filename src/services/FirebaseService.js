@@ -2,12 +2,12 @@ import { firebaseDatabase } from '../utils/firebaseUtils';
 
 export default class FirebaseService {
 	static getDataList = (nodePath, callback, size = 10) => {
-		let query = firebaseDatabase.ref(nodePath).limitToLast(size);
-		query.on('value', dataSnapshot => {
-			let items = [];
-			dataSnapshot.forEach(childSnapshot => {
-				let item = childSnapshot.val();
-				item['key'] = childSnapshot.key;
+		const query = firebaseDatabase.ref(nodePath).limitToLast(size);
+		query.on('value', (dataSnapshot) => {
+			const items = [];
+			dataSnapshot.forEach((childSnapshot) => {
+				const item = childSnapshot.val();
+				item.key = childSnapshot.key;
 				items.push(item);
 			});
 			callback(items);
@@ -23,23 +23,26 @@ export default class FirebaseService {
 		return id;
 	};
 
-	static remove = (node, id) => {
-		return firebaseDatabase.ref(node + '/' + id).remove();
-	};
+	static remove = (node, id) => firebaseDatabase.ref(`${node}/${id}`).remove();
 
 	static getUniqueDataBy = (node, id, callback) => {
-		const ref = firebaseDatabase.ref(node + '/' + id);
-		let newData = {};
+		const ref = firebaseDatabase.ref(`${node}/${id}`);
+		const newData = {};
 		ref
-			.once('value', dataSnapshot => {
-				if (!dataSnapshot || dataSnapshot === undefined || !dataSnapshot.val() || dataSnapshot.val() === undefined) {
+			.once('value', (dataSnapshot) => {
+				if (
+					!dataSnapshot ||
+					dataSnapshot === undefined ||
+					!dataSnapshot.val() ||
+					dataSnapshot.val() === undefined
+				) {
 					callback(null);
 					return;
 				}
 
 				const snap = dataSnapshot.val();
 				const keys = Object.keys(snap);
-				keys.forEach(key => {
+				keys.forEach((key) => {
 					newData[key] = snap[key];
 				});
 			})
@@ -48,7 +51,5 @@ export default class FirebaseService {
 			});
 	};
 
-	static updateData = (node, id, obj) => {
-		return firebaseDatabase.ref(node + '/' + id).set({ ...obj });
-	};
+	static updateData = (node, id, obj) => firebaseDatabase.ref(`${node}/${id}`).set({ ...obj });
 }

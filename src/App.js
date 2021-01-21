@@ -1,7 +1,7 @@
 import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Assuntos from './containers/assuntos';
 import Contatos from './containers/contatos';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 function App() {
 	return (

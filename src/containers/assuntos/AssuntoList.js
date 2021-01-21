@@ -15,9 +15,14 @@ const AssuntoList = ({ assuntos, onEdit, onDelete }) => {
 			<SearchText label="Pesquisar" style={{ padding: 24 }} termo={termo} setTermo={setTermo} />
 			<Grid container spacing={3} style={{ padding: 10 }}>
 				{assuntos
-					.filter(c => JSON.stringify(c).indexOf(termo) > -1)
+					.filter((c) => JSON.stringify(c).indexOf(termo) > -1)
 					.map((assunto, i) => (
-						<Grid item xs={12} key={i} style={{ backgroundColor: i % 2 === 0 ? '#eeeeee' : '#dddddd' }}>
+						<Grid
+							item
+							xs={12}
+							key={i}
+							style={{ backgroundColor: i % 2 === 0 ? '#eeeeee' : '#dddddd' }}
+						>
 							<AssuntoDetail assunto={assunto} onEdit={onEdit} onDelete={onDelete} />
 						</Grid>
 					))}
@@ -27,7 +32,9 @@ const AssuntoList = ({ assuntos, onEdit, onDelete }) => {
 };
 
 AssuntoList.propTypes = {
-	assuntos: PropTypes.arrayOf(PropTypes.any)
+	assuntos: PropTypes.arrayOf(PropTypes.any),
+	onEdit: PropTypes.func,
+	onDelete: PropTypes.func,
 };
 
 export default AssuntoList;

@@ -15,15 +15,15 @@ import FirebaseService from '../../services/FirebaseService';
 import ContatoForm from './ContatoForm';
 import ContatoList from './ContatoList';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
-		color: theme.palette.text.primary
+		color: theme.palette.text.primary,
 	},
 	fab: {
 		position: 'absolute',
 		bottom: theme.spacing(2),
-		right: theme.spacing(2)
-	}
+		right: theme.spacing(2),
+	},
 }));
 
 const Contatos = () => {
@@ -47,9 +47,9 @@ const Contatos = () => {
 		}
 	}, [contatoEdicao]);
 
-	const removeContato = contato => FirebaseService.remove('contatos', contato.key);
-	const saveContato = contato => {
-		if (contatos.find(c => c.key === contato.key)) {
+	const removeContato = (contato) => FirebaseService.remove('contatos', contato.key);
+	const saveContato = (contato) => {
+		if (contatos.find((c) => c.key === contato.key)) {
 			FirebaseService.updateData('contatos', contato.key, contato);
 		} else {
 			FirebaseService.pushData('contatos', contato);
@@ -67,7 +67,9 @@ const Contatos = () => {
 					Assuntos
 				</Link>
 			</NavBar>
-			{editing && <ContatoForm contato={contatoEdicao} onSave={saveContato} onCancel={cancelEdicao} />}
+			{editing && (
+				<ContatoForm contato={contatoEdicao} onSave={saveContato} onCancel={cancelEdicao} />
+			)}
 			<ContatoList contatos={contatos} onEdit={setContatoEdicao} onDelete={removeContato} />
 			<Fab color="primary" aria-label="Novo Contato" className={classes.fab}>
 				<AddIcon onClick={() => setContatoEdicao({})} />

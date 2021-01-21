@@ -15,15 +15,15 @@ import FirebaseService from '../../services/FirebaseService';
 import AssuntoForm from './AssuntoForm';
 import AssuntoList from './AssuntoList';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
-		color: theme.palette.text.primary
+		color: theme.palette.text.primary,
 	},
 	fab: {
 		position: 'absolute',
 		bottom: theme.spacing(2),
-		right: theme.spacing(2)
-	}
+		right: theme.spacing(2),
+	},
 }));
 
 const Assuntos = () => {
@@ -47,9 +47,9 @@ const Assuntos = () => {
 		}
 	}, [assuntoEdicao]);
 
-	const removeAssunto = assunto => FirebaseService.remove('assuntos', assunto.key);
-	const saveAssunto = assunto => {
-		if (assuntos.find(c => c.key === assunto.key)) {
+	const removeAssunto = (assunto) => FirebaseService.remove('assuntos', assunto.key);
+	const saveAssunto = (assunto) => {
+		if (assuntos.find((c) => c.key === assunto.key)) {
 			FirebaseService.updateData('assuntos', assunto.key, assunto);
 		} else {
 			FirebaseService.pushData('assuntos', assunto);
@@ -68,7 +68,9 @@ const Assuntos = () => {
 					Contatos
 				</Link>
 			</NavBar>
-			{editing && <AssuntoForm assunto={assuntoEdicao} onSave={saveAssunto} onCancel={cancelEdicao} />}
+			{editing && (
+				<AssuntoForm assunto={assuntoEdicao} onSave={saveAssunto} onCancel={cancelEdicao} />
+			)}
 			<AssuntoList assuntos={assuntos} onEdit={setAssuntoEdicao} onDelete={removeAssunto} />
 			<Fab color="primary" aria-label="Novo Assunto" className={classes.fab}>
 				<AddIcon onClick={() => setAssuntoEdicao({})} />

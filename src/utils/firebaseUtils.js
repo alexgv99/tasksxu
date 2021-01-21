@@ -7,7 +7,7 @@ const config = {
 	projectId: 'tasksxu',
 	storageBucket: '',
 	messagingSenderId: '347330965454',
-	appId: '1:347330965454:web:f08ab5c643f5a0e1'
+	appId: '1:347330965454:web:f08ab5c643f5a0e1',
 };
 
 export const firebaseImpl = firebase.initializeApp(config);
